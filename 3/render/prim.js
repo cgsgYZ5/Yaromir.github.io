@@ -32,7 +32,7 @@ class _prim {
     this.mtl = mtl;
     /* this.VA = this.VB = this.VI = null; */
 
-    if (typeof mtl.shd.program.then == typeof Promise)
+    if (mtl.shd.program.then != undefined)
       mtl.shd.program.then(() => {
         this.loadV(gl, V, I, mtl);
         this.isCreated = true;
@@ -64,25 +64,24 @@ class _prim {
       this.IB = buffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Int16Array(I));
 
     let off = 0;
-    // mtl.mtlPat.vForm.args[i].name[0]
-    for (let i = 0; i < mtl.mtlPat.vForm.len; i++) {
-      for (
-        let j = 0;
-        j < admisName[mtl.mtlPat.vForm.args[i].name].length;
-        j++
-      ) {
-        const name = admisName[mtl.mtlPat.vForm.args[i].name][j];
-        if (mtl.shd.attrs[name] != undefined) {
-          const loc = mtl.shd.attrs[name].loc;
+    let allSize = 0;
+    for (let i = 0; i < mtl.vertData.length - 1; i++)
+      allSize += mtl.vertData[mtl.vertData.length - 1][mtl.vertData[i]];
+
+    for (let i = 0; i < mtl.vertData.length - 1; i++) {
+      for (let j = 0; j < admisName[mtl.vertData[i]].length; j++) {
+        const name = admisName[mtl.vertData[i]][j];
+        if (mtl.shd.info.attrs[name] != undefined) {
+          const loc = mtl.shd.info.attrs[name].loc;
           gl.vertexAttribPointer(
             loc,
-            mtl.mtlPat.vForm.args[i].size,
+            mtl.vertData[mtl.vertData.length - 1][mtl.vertData[i]],
             gl.FLOAT,
             false,
-            mtl.mtlPat.vFormAllSize * 4,
+            allSize * 4,
             off
           );
-          off += mtl.mtlPat.vForm.args[i].size * 4;
+          off += mtl.vertData[mtl.vertData.length - 1][mtl.vertData[i]] * 4;
           gl.enableVertexAttribArray(loc);
           break;
         }
