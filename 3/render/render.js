@@ -3,9 +3,6 @@ import { prim } from "./prim.js";
 import { timer } from "./timer.js";
 import { camera } from "./camera.js";
 import { input } from "./input/input.js";
-import { buffer } from "./material/buffer.js";
-import { ubo } from "./material/buffer.js";
-import { materialPat } from "./material/materialPat.js";
 import { material } from "./material/material.js";
 
 /* Render module */
@@ -27,9 +24,6 @@ class _render {
 
     this.dgColorSet(1, 1, 1, 1);
   }
-  mtlpatCreate(...arg) {
-    return materialPat(...arg);
-  }
 
   mtlCreate(...arg) {
     return material(this.gl, ...arg);
@@ -47,6 +41,7 @@ class _render {
   }
   start() {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+    this.timer.response("fps");
   }
 
   primDraw(prim) {
@@ -58,11 +53,10 @@ class _render {
       new Float32Array([
         ...matr().matrMulmatr(prim.mTrans, this.camera.matrVP).unpack(),
         ...this.camera.matrVP.unpack(),
-        ...matr().ortho(-1, 1, -1, 1, -1, 1).unpack(),
-        /*...prim.mTrans.unpack(),*/
+        ...prim.mTrans.unpack(),
       ])
     );
-    prim.mtl.ubo[0].apply(this.gl, prim.mtl.shd.program);
+    prim.mtl.ubo[0].apply(this.gl, prim.mtl.shd);
 
     this.gl.bindVertexArray(prim.VA);
     if (prim.IB != undefined) {
@@ -75,8 +69,6 @@ class _render {
   */
   end() {
     this.camera.update(this.input, this.timer);
-    this.timer.response("fps");
-    this.input.reset();
 
     _render.allPrims.forEach((prim, ind) => {
       if (
@@ -91,6 +83,7 @@ class _render {
         this.allPrims.splice(ind, 1);
       }
     });
+    this.input.reset();
   }
 }
 

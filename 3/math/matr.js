@@ -63,81 +63,80 @@ class _matr {
     return this;
   }
   mul(matr) {
-    if (arguments.length == 0)
-      this.m = [
-        [
-          this.m[0][0] * matr[0][0] +
-            this.m[0][1] * matr[1][0] +
-            this.m[0][2] * matr[2][0] +
-            this.m[0][3] * matr[3][0],
-          this.m[0][0] * matr[0][1] +
-            this.m[0][1] * matr[1][1] +
-            this.m[0][2] * matr[2][1] +
-            this.m[0][3] * matr[3][1],
-          this.m[0][0] * matr[0][2] +
-            this.m[0][1] * matr[1][2] +
-            this.m[0][2] * matr[2][2] +
-            this.m[0][3] * matr[3][2],
-          this.m[0][0] * matr[0][3] +
-            this.m[0][1] * matr[1][3] +
-            this.m[0][2] * matr[2][3] +
-            this.m[0][3] * matr[3][3],
-        ],
-        [
-          this.m[1][0] * matr[0][0] +
-            this.m[1][1] * matr[1][0] +
-            this.m[1][2] * matr[2][0] +
-            this.m[1][3] * matr[3][0],
-          this.m[1][0] * matr[0][1] +
-            this.m[1][1] * matr[1][1] +
-            this.m[1][2] * matr[2][1] +
-            this.m[1][3] * matr[3][1],
-          this.m[1][0] * matr[0][2] +
-            this.m[1][1] * matr[1][2] +
-            this.m[1][2] * matr[2][2] +
-            this.m[1][3] * matr[3][2],
-          this.m[1][0] * matr[0][3] +
-            this.m[1][1] * matr[1][3] +
-            this.m[1][2] * matr[2][3] +
-            this.m[1][3] * matr[3][3],
-        ],
-        [
-          this.m[2][0] * matr[0][0] +
-            this.m[2][1] * matr[1][0] +
-            this.m[2][2] * matr[2][0] +
-            this.m[2][3] * matr[3][0],
-          this.m[2][0] * matr[0][1] +
-            this.m[2][1] * matr[1][1] +
-            this.m[2][2] * matr[2][1] +
-            this.m[2][3] * matr[3][1],
-          this.m[2][0] * matr[0][2] +
-            this.m[2][1] * matr[1][2] +
-            this.m[2][2] * matr[2][2] +
-            this.m[2][3] * matr[3][2],
-          this.m[2][0] * matr[0][3] +
-            this.m[2][1] * matr[1][3] +
-            this.m[2][2] * matr[2][3] +
-            this.m[2][3] * matr[3][3],
-        ],
-        [
-          this.m[3][0] * matr[0][0] +
-            this.m[3][1] * matr[1][0] +
-            this.m[3][2] * matr[2][0] +
-            this.m[3][3] * matr[3][0],
-          this.m[3][0] * matr[0][1] +
-            this.m[3][1] * matr[1][1] +
-            this.m[3][2] * matr[2][1] +
-            this.m[3][3] * matr[3][1],
-          this.m[3][0] * matr[0][2] +
-            this.m[3][1] * matr[1][2] +
-            this.m[3][2] * matr[2][2] +
-            this.m[3][3] * matr[3][2],
-          this.m[3][0] * matr[0][3] +
-            this.m[3][1] * matr[1][3] +
-            this.m[3][2] * matr[2][3] +
-            this.m[3][3] * matr[3][3],
-        ],
-      ];
+    this.m = [
+      [
+        this.m[0][0] * matr.m[0][0] +
+          this.m[0][1] * matr.m[1][0] +
+          this.m[0][2] * matr.m[2][0] +
+          this.m[0][3] * matr.m[3][0],
+        this.m[0][0] * matr.m[0][1] +
+          this.m[0][1] * matr.m[1][1] +
+          this.m[0][2] * matr.m[2][1] +
+          this.m[0][3] * matr.m[3][1],
+        this.m[0][0] * matr.m[0][2] +
+          this.m[0][1] * matr.m[1][2] +
+          this.m[0][2] * matr.m[2][2] +
+          this.m[0][3] * matr.m[3][2],
+        this.m[0][0] * matr.m[0][3] +
+          this.m[0][1] * matr.m[1][3] +
+          this.m[0][2] * matr.m[2][3] +
+          this.m[0][3] * matr.m[3][3],
+      ],
+      [
+        this.m[1][0] * matr.m[0][0] +
+          this.m[1][1] * matr.m[1][0] +
+          this.m[1][2] * matr.m[2][0] +
+          this.m[1][3] * matr.m[3][0],
+        this.m[1][0] * matr.m[0][1] +
+          this.m[1][1] * matr.m[1][1] +
+          this.m[1][2] * matr.m[2][1] +
+          this.m[1][3] * matr.m[3][1],
+        this.m[1][0] * matr.m[0][2] +
+          this.m[1][1] * matr.m[1][2] +
+          this.m[1][2] * matr.m[2][2] +
+          this.m[1][3] * matr.m[3][2],
+        this.m[1][0] * matr.m[0][3] +
+          this.m[1][1] * matr.m[1][3] +
+          this.m[1][2] * matr.m[2][3] +
+          this.m[1][3] * matr.m[3][3],
+      ],
+      [
+        this.m[2][0] * matr.m[0][0] +
+          this.m[2][1] * matr.m[1][0] +
+          this.m[2][2] * matr.m[2][0] +
+          this.m[2][3] * matr.m[3][0],
+        this.m[2][0] * matr.m[0][1] +
+          this.m[2][1] * matr.m[1][1] +
+          this.m[2][2] * matr.m[2][1] +
+          this.m[2][3] * matr.m[3][1],
+        this.m[2][0] * matr.m[0][2] +
+          this.m[2][1] * matr.m[1][2] +
+          this.m[2][2] * matr.m[2][2] +
+          this.m[2][3] * matr.m[3][2],
+        this.m[2][0] * matr.m[0][3] +
+          this.m[2][1] * matr.m[1][3] +
+          this.m[2][2] * matr.m[2][3] +
+          this.m[2][3] * matr.m[3][3],
+      ],
+      [
+        this.m[3][0] * matr.m[0][0] +
+          this.m[3][1] * matr.m[1][0] +
+          this.m[3][2] * matr.m[2][0] +
+          this.m[3][3] * matr.m[3][0],
+        this.m[3][0] * matr.m[0][1] +
+          this.m[3][1] * matr.m[1][1] +
+          this.m[3][2] * matr.m[2][1] +
+          this.m[3][3] * matr.m[3][1],
+        this.m[3][0] * matr.m[0][2] +
+          this.m[3][1] * matr.m[1][2] +
+          this.m[3][2] * matr.m[2][2] +
+          this.m[3][3] * matr.m[3][2],
+        this.m[3][0] * matr.m[0][3] +
+          this.m[3][1] * matr.m[1][3] +
+          this.m[3][2] * matr.m[2][3] +
+          this.m[3][3] * matr.m[3][3],
+      ],
+    ];
     return this;
   }
   frustum(l, r, b, t, n, f) {
@@ -259,7 +258,7 @@ class _matr {
   rotateZ(angle) {
     const AngleInDegree = (angle * Math.PI) / 180;
     this.m[0][0] = this.m[1][1] = Math.cos(AngleInDegree);
-    this.m[0][1] = Math.sin(AngleInDegree);
+    this.m[0][1] = -Math.sin(AngleInDegree);
     this.m[1][0] = -this.m[0][1];
 
     return this;
@@ -301,6 +300,31 @@ class _matr {
     ];
     return this;
   } /* End of 'MatrOrtho' function */
+  RRansform(V) {
+    let w =
+      V.x * this.m[0][3] +
+      V.y * this.m[1][3] +
+      V.z * this.m[2][3] +
+      this.m[3][3];
+
+    return vec3(
+      (V.x * this.m[0][0] +
+        V.y * this.m[1][0] +
+        V.z * this.m[2][0] +
+        this.m[3][0]) /
+        w,
+      (V.x * this.m[0][1] +
+        V.y * this.m[1][1] +
+        V.z * this.m[2][1] +
+        this.m[3][1]) /
+        w,
+      (V.x * this.m[0][2] +
+        V.y * this.m[1][2] +
+        V.z * this.m[2][2] +
+        this.m[3][2]) /
+        w
+    );
+  } // End of 'transform' function
 }
 
 export function matr(...arg) {

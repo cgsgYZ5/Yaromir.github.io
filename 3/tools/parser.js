@@ -5,16 +5,16 @@ export function parser(str) {
 
   parsObj.len = params.length;
   parsObj.args = [];
-
-  params.forEach((element, ind) => {
-    let arg = {};
-    let param = element.split("(");
-    arg.name = param[0];
-    arg.args = param[1].replace(")", "").split(",");
-    if (arg.args[0][0] === "f") {
-      arg.size = Number(arg.args[0].replace("f", ""));
-    }
-    parsObj.args.push(arg);
-  });
+  if (parsObj.len >= 2)
+    params.forEach((element, ind) => {
+      let arg = {};
+      let param = element.split("(");
+      arg.name = param[0];
+      arg.arg = param[1].replace(")", "").split(",");
+      if (arg.arg[0][0] === "f") {
+        arg.size = Number(arg.arg[0].replace("f", ""));
+      }
+      parsObj.args.push(arg);
+    });
   return parsObj;
 }

@@ -20,8 +20,10 @@
 
         window.addEventListener("load", () => {
             let sys = system("glCanvas");
-            let mtlPat = sys.render.mtlpatCreate("P(f3)", "Ka(f3), Kd(f3), Ks(f3), (f3)","./shaders/3d",  0);
-            let mtl = sys.render.mtlCreate("mtl_name",  mtlPat, "Ka(1, 1, 1), Ks(3, 3, 1), Kd(1.6, 10, 1), Ph(0, 4)");
+            let mtl = sys.render.mtlCreate("./bin/shaders/3d",
+                ["P", "T", {"P" : 3, "T" : 2}], 
+                ["Ka", "Kd", "Ks", {Ka:[1 ,1, 1], Kd:[1, 2, 3], Ks:[90, 12, 45]}],
+                ["uSampler1", "uSampler2",{"uSampler1" : "./bin/textures/M.bmp", "uSampler2" : "./bin/textures/D1.bmp"}]);
             let prim;
             
             let a = "-3*sqrt(5)+3)".indexOf("sqrt");
@@ -34,7 +36,7 @@
                 for (let i = 0; i<I.length;i++)
                     I[i] = Number(I[i]);
                 prim = sys.render.primCreate("triangle", V, I,  mtl);
-                prim.draw(matr().translate(vec3(-1, -1, -1)));
+                prim.draw(matr());
             });
 
             const def = vec3(0, 0, 3) 

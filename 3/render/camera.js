@@ -34,7 +34,7 @@ class _camera {
     this.right = vec3();
 
     this.setProj(0.5, 0.5, 100);
-    this.set(vec3(0, 3, 3), vec3(0), vec3(0, 1, 0));
+    this.set(vec3(2), vec3(0), vec3(0, 1, 0));
   }
   set(Loc, At, Up) {
     this.matrView.view(Loc, At, Up);
@@ -91,16 +91,9 @@ class _camera {
     this.setProj(this.projSize, this.projDist, this.projFarClip);
   }
   update(input, timer) {
-    /*
-    if (
-      input.keys == undefined &&
-      input.mdx == 0 &&
-      input.mdy == 0 &&
-      input.mdz == 0
-    )
-      return;
-    */
-    let speed = 10,
+    let isControl = input.keys["Control"] == 1,
+      isShift = input.keys["Shift"] == 1,
+      speed = 10,
       time = timer.globalDeltaTime,
       Dist = vec3(this.at).sub(this.loc).len(),
       CosT = (this.loc.y - this.at.y) / Dist,
@@ -120,75 +113,60 @@ class _camera {
 
     Azimuth +=
       time *
-      (input.keys["ControlLeft"] == 1) *
+      isControl *
       koef2 *
       -speed *
-      ((((input.mButton[2] == 1) * 500 * input.mdx) / (1 + this.frameW)) * 2 +
-        ((input.keys["ArrowLeft"] == 1) - (input.keys["ArrowRight"] == 1)) *
-          (15 + 45 * (input.keys["ShiftLeft"] == 1)));
+      ((((input.mButton[0] == 1) * 500 * input.mdx) / (1 + this.frameW)) * 2 +
+        (15 + 45 * isShift) *
+          ((input.keys["ArrowLeft"] == 1) - (input.keys["ArrowRight"] == 1)));
     Elevator +=
       time *
-        (input.keys["ControlLeft"] == 1) *
-        koef2 *
-        -speed *
-        (((input.mButton[2] == 1) * 500 * input.mdy) / (1 + this.frameH)) *
-        2 +
-      ((input.keys["ArrowUp"] == 1) - (input.keys["ArrowDown"] == 1)) *
-        (15 + 45 * (input.keys["ShiftLeft"] == 1));
+      isControl *
+      koef2 *
+      -speed *
+      ((((input.mButton[0] == 1) * 500 * input.mdy) / (1 + this.frameH)) * 2 +
+        ((input.keys["ArrowUp"] == 1) - (input.keys["ArrowDown"] == 1)) *
+          (15 + 45 * isShift));
 
     Elevator = Math.min(179.9, Elevator);
     Elevator = Math.max(0.1, Elevator);
 
     Dist +=
       time *
-      (input.keys["ControlLeft"] == 1) *
+      isControl *
       koef1 *
-      (-input.mdz * (1 + 25 * (input.keys["ShiftLeft"] == 1)) +
-        (8 + 25 * (input.keys == "keys")) *
-          ((input.keys["ArrowUp"] == 1) - (input.keys["ArrowDown"] == 1)));
+      (-input.mdz * (1 + 25 * isShift) +
+        (8 + 25 * isShift) *
+          ((input.keys["PageUp"] == 1) - (input.keys["PageDown"] == 1)));
 
     Dist = Math.max(Dist, 1.1);
     Dist = Math.min(Dist, 10 * this.projFarClip);
 
     if (this.frameW > this.frameH) Wp *= this.frameW / this.frameH;
     else Hp *= this.frameH / this.frameW;
+    if (input.mButton[2] == 1 && isControl) {
+      sx = (((input.mdx * Wp) / this.frameW) * Dist) / this.projDist;
+      sy = (((-input.mdy * Hp) / this.frameH) * Dist) / this.projDist;
 
-    sx =
-      ((((input.mButton[1] == 1) * -input.mdx * Wp) / this.frameW) * Dist) /
-      this.projDist;
-    sy =
-      ((((input.mButton[1] == 1) * input.mdy * Hp) / this.frameH) * Dist) /
-      this.projDist;
-
-    dv = vec3(this.right).mul(sx).add(vec3(this.up).mul(sy));
-    this.at.add(dv);
-    this.loc.add(dv);
-
-    if (input.keys["KeyF"] == 1) {
-      this.camSet(vec3(20), vec3(0), vec3(0, 1, 0));
-      return;
+      dv = vec3(this.right).mul(sx).add(vec3(this.up).mul(sy));
+      this.at.add(dv);
+      this.loc.add(dv);
     }
 
-    /*
-    if (input.keys[VK_LCONTROL] && input.keys[VK_RCONTROL]) {
-      this.CamSet(this.Loc, vec3(0), vec3(0, 1, 0));
+    if (input.keys["KeyF"] == 1 && isControl) {
+      this.set(vec3(20), vec3(0), vec3(0, 1, 0));
       return;
     }
-    */
-    if (input.keys["KeyP"] == 1) timer.isPause = !timer.isPause;
+    if (input.keys["KeyP"] == 1 && isControl) timer.isPause = !timer.isPause;
 
-    /*
-  if (input.keys[VK_SHIFT] && input.keys['D'] && !input.keys[VK_CONTROL] && !input.keys[VK_PRIOR])
-    Ttp->PipelineDebugMode = !Ttp->PipelineDebugMode;
-  */
-
+    let a = matr()
+      .matrMulmatr(matr().rotateX(Elevator), matr().rotateY(Azimuth))
+      .mul(matr().translate(this.at))
+      .RRansform(vec3(0, Dist, 0));
     this.set(
       matr()
-        .matrMulmatr(
-          matr().rotateX(Elevator),
-          matr().rotateX(Azimuth),
-          matr().translate(this.at)
-        )
+        .matrMulmatr(matr().rotateX(Elevator), matr().rotateY(Azimuth))
+        .mul(matr().translate(this.at))
         .pointTransform(vec3(0, Dist, 0)),
       this.at,
       vec3(0, 1, 0)
